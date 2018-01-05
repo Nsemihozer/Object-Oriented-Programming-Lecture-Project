@@ -66,16 +66,16 @@ void RobotControl::moveDistance(float distance)
 {
 
 	robotinterface->move(100);
-	
+	Sleep((distance/100)*1000);
 	
 }
 void RobotControl::closeWall()
 {
-	for (int i = 0; i < 16; i++)
+	while(sensor[0]->getRange(3) > 500 && sensor[0]->getRange(4) > 500)
 	{
-		if (sensor[i]->getRange(i) < 10)
-		{
-			robotinterface->stop();
-		}	
-	}	
+		robotinterface->update();
+		robotinterface->move(speed);
+		print();
+	}
+	robotinterface->stop();
 }
